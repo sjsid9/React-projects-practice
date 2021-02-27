@@ -29,17 +29,43 @@ const app = (props) => {
     });
   };
 
+  const setNameViaInput = (event) => {
+    setPersonState({
+      persons: [
+        { name: event.target.value, age: '244' },
+        { name: 'Iron man', age: '55' },
+        { name: 'Steve', age: '55' },
+        { name: 'Batman', age: '55' },
+        { name: 'Hulk', age: 58 },
+      ],
+    });
+  };
+
+  const nameChangeHandler = (newName) => {
+    setPersonState({
+      persons: [
+        { name: 'Siddhant', age: '244' },
+        { name: 'Iron Man Mark 2', age: '55' },
+        { name: newName, age: '55' },
+        { name: 'Batman', age: '55' },
+        { name: 'Hulk', age: 58 },
+      ],
+    });
+  };
+
   return (
     <div className="App">
       <h2>Hi I am a React App</h2>
-      <button onClick={switchButtonHandler}>Switch</button>
+      <button onClick={() => nameChangeHandler('Bucky Barnes')}>Switch</button>
       <Person
         name={personState.persons[0].name}
         age={personState.persons[0].age}
+        inputChange={setNameViaInput}
       />
       <Person
         name={personState.persons[1].name}
         age={personState.persons[1].age}
+        click={nameChangeHandler.bind(null, 'Captain America')}
       />
       <Person
         name={personState.persons[2].name}
