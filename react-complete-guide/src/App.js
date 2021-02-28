@@ -5,42 +5,28 @@ import Person from './Person/Person';
 const app = (props) => {
   const [personState, setPersonState] = useState({
     persons: [
-      { name: 'Siddhant', age: '24' },
-      { name: 'Iron man', age: '55' },
-      { name: 'Steve', age: '55' },
-      { name: 'Batman', age: '55' },
-      { name: 'Hulk', age: 588 },
+      { id: 'ssdc', name: 'Siddhant', age: '24' },
+      { id: 'dwsad', name: 'Iron man', age: '55' },
+      { id: 'sds', name: 'Steve', age: '55' },
+      { id: 'swad', name: 'Batman', age: '55' },
+      { id: 'swadws', name: 'Hulk', age: 588 },
     ],
   });
 
-  // const [otherState, setOtherState] = useState('Some other value');
-
-  // console.log(personState, otherState);
-
-  // const switchButtonHandler = () => {
-  //   setPersonState({
-  //     persons: [
-  //       { name: 'Siddhant', age: '244' },
-  //       { name: 'Iron man', age: '55' },
-  //       { name: 'Steve', age: '55' },
-  //       { name: 'Batman', age: '55' },
-  //       { name: 'Hulk', age: 58 },
-  //     ],
-  //   });
-  // };
-
   const [showPersonsState, setShowPersonsState] = useState(false);
 
-  const setNameViaInput = (event) => {
-    setPersonState({
-      persons: [
-        { name: event.target.value, age: '244' },
-        { name: 'Iron man', age: '55' },
-        { name: 'Steve', age: '55' },
-        { name: 'Batman', age: '55' },
-        { name: 'Hulk', age: 58 },
-      ],
-    });
+  const setNameViaInput = (event, personId) => {
+    const newName = event.target.value;
+
+    const personIndex = personState.persons.findIndex((p) => p.id === personId);
+    const newPersonObj = { ...personState.persons[personIndex] };
+
+    newPersonObj.name = newName;
+
+    const persons = [...personState.persons];
+    persons[personIndex] = newPersonObj;
+
+    setPersonState({persons});
   };
 
   const togglePersons = () => {
@@ -49,51 +35,23 @@ const app = (props) => {
 
   let persons = null;
 
-  
-  const nameChangeHandler = (newName) => {
-    setPersonState({
-      persons: [
-        { name: 'Siddhant', age: '244' },
-        { name: 'Iron Man Mark 2', age: '55' },
-        { name: newName, age: '55' },
-        { name: 'Batman', age: '55' },
-        { name: 'Hulk', age: 58 },
-      ],
-    });
-  };
-  
   if (showPersonsState) {
     persons = (
       <div>
-        <Person
-          name={personState.persons[0].name}
-          age={personState.persons[0].age}
-          inputChange={setNameViaInput}
-        />
-        <Person
-          name={personState.persons[1].name}
-          age={personState.persons[1].age}
-          click={nameChangeHandler.bind(null, 'Captain America')}
-        />
-        <Person
-          name={personState.persons[2].name}
-          age={personState.persons[2].age}
-        />
-        <Person
-          name={personState.persons[3].name}
-          age={personState.persons[3].age}
-        >
-          {' '}
-          I am a legendary warrior{' '}
-        </Person>
-        <Person
-          name={personState.persons[4].name}
-          age={personState.persons[4].age}
-        />
+        {personState.persons.map((person) => {
+          return (
+            <Person
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              onInputChange={(event) => setNameViaInput(event, person.id)}
+            />
+          );
+        })}
       </div>
     );
   }
-  
+
   return (
     <div className="App">
       <h2>Hi I am a React App</h2>
@@ -101,12 +59,6 @@ const app = (props) => {
       {persons}
     </div>
   );
-  // return React.createElement(
-  //   'div',
-  //   { className: 'App' },
-  //   'Hello',
-  //   React.createElement('h1', null, 'I am a h1 tag')
-  // );
 };
 
 export default app;
