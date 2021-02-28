@@ -55,7 +55,7 @@ const app = (props) => {
   return (
     <div className="App">
       <h2>Hi I am a React App</h2>
-      <button onClick={() => togglePersons()}>Switch</button>
+      <button onClick={() => togglePersons()}>Toggle View</button>
       {persons}
     </div>
   );
